@@ -1,5 +1,4 @@
 #Add group member with output:
-	
 $GroupName = "XXXX"
 $UserName = "XXX"
 
