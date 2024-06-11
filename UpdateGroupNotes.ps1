@@ -31,7 +31,7 @@ $newNotes = "Primary Owner: XXX `r`nSecondary Owner: XXX"
 foreach ($groupName in $groupNames) {
     try {
         Set-ADGroup -Identity $groupName -Replace @{info=$newNotes}
-        Write-Output "Updated notes for group: $groupName"
+        Write-Output "`nUpdated notes for group: $groupName"
         
         $groupInfo = Get-ADGroup -Identity $groupName -Properties Description,info | Select-Object Name, info
         $groupInfo | Format-Table -AutoSize -Wrap
