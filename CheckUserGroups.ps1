@@ -7,5 +7,5 @@ $groupsContaining = Get-ADUser -Identity $userName -Properties MemberOf |
     Get-ADGroup |
     Where-Object { $_.Name -like "*XXXX*" }
 
-# Output the groups
-$groupsContaining | Format-Table Name, DistinguishedName
+# Retrieve the notes for each group and output the results
+$groupsContaining | Get-ADGroup -Property info | Select-Object Name, info | Format-Table -AutoSize -Wrap
