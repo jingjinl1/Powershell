@@ -1,6 +1,6 @@
 #Add group member with output:
 $GroupName = "XXXX"
-$UserName = "XXX"
+$UserName = "XXXX"
 
 if(Get-ADGroupMember -Identity $GroupName | Where-Object { $_.SamAccountName -eq $UserName }) {
     Write-Output "User $UserName is already a member of the group $GroupName."
