@@ -11,6 +11,8 @@ if(Get-ADGroupMember -Identity $GroupName | Where-Object { $_.SamAccountName -eq
 }
 
 
+
+
 #remove member
 $GroupName = "XXXX"
 $UserName = "XXXX"
