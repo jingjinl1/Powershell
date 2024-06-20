@@ -1,4 +1,4 @@
-# Define the group name and the new notes
+# Update notes for one group
 $groupName = "XXXXX"
 $newNotes = "Primary Owner: XXX `r`nSecondary Owner: XXX"
 
@@ -43,7 +43,7 @@ foreach ($groupName in $groupNames) {
 
 
 
-# Define the search pattern and the new notes
+# Update group notes for  all the groups that contains XXXX
 $searchPattern = "*XXXXX*"
 $newNotes = "Primary Owner: XXXX`r`nSecondary Owner: XXXX"
 
