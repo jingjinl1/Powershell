@@ -2,19 +2,20 @@
 $groupName = "XXXXX"
 $newNotes = "Primary Owner: XXX `r`nSecondary Owner: XXX"
 
+# Get and display the group's orginal notes
+$groupInfo = Get-ADGroup -Identity $groupName -Properties Description, info | Select-Object Name, info
+$groupInfo | Format-Table -AutoSize -Wrap
 try {
     # Update the group's notes
     Set-ADGroup -Identity $groupName -Replace @{info=$newNotes} 
-    Write-Output "`nUpdated notes for group: $groupName"
-
-    # Get and display the group's updated notes
-    $groupInfo = Get-ADGroup -Identity $groupName -Properties Description, info | Select-Object Name, info
-    $groupInfo | Format-Table -AutoSize -Wrap
+    Write-Output "Updated notes for group: $groupName"
 }
 catch {
     Write-Error "Failed to update notes for group: $groupName"
 }
-
+# Get and display the group's updated notes
+$groupInfo = Get-ADGroup -Identity $groupName -Properties Description, info | Select-Object Name, info
+$groupInfo | Format-Table -AutoSize -Wrap
 
 
 
