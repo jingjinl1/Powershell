@@ -28,19 +28,21 @@ $groupNames = @("Group1",
 # Define the new notes
 $newNotes = "Primary Owner: XXX `r`nSecondary Owner: XXX"
 
+$groupInfo = Get-ADGroup -Identity $groupName -Properties Description,info | Select-Object Name, info
+        $groupInfo | Format-Table -AutoSize -Wrap
 # Loop through each group and update the notes
 foreach ($groupName in $groupNames) {
     try {
         Set-ADGroup -Identity $groupName -Replace @{info=$newNotes}
-        Write-Output "`nUpdated notes for group: $groupName"
-        
-        $groupInfo = Get-ADGroup -Identity $groupName -Properties Description,info | Select-Object Name, info
-        $groupInfo | Format-Table -AutoSize -Wrap
+        Write-Output "`nUpdated notes for group: $groupName"    
     }
     catch {
         Write-Error "Failed to update notes for group: $groupName"
     }
 }
+$groupInfo = Get-ADGroup -Identity $groupName -Properties Description,info | Select-Object Name, info
+        $groupInfo | Format-Table -AutoSize -Wrap
+
 
 
 
@@ -48,6 +50,9 @@ foreach ($groupName in $groupNames) {
 $searchPattern = "*XXXXX*"
 $newNotes = "Primary Owner: XXXX`r`nSecondary Owner: XXXX"
 
+# Get and display the group's Original notes
+$groupInfo = Get-ADGroup -Identity $groupName -Properties Description, info | Select-Object Name, info
+$groupInfo | Format-Table -AutoSize -Wrap
 try {
     # Find all groups that match the search pattern
     $groups = Get-ADGroup -Filter "Name -like '$searchPattern'"
@@ -60,11 +65,7 @@ try {
             try {
                 # Update the group's notes
                 Set-ADGroup -Identity $groupName -Replace @{info=$newNotes}
-                Write-Output "`nUpdated notes for group: $groupName"
-
-                # Get and display the group's updated notes
-                $groupInfo = Get-ADGroup -Identity $groupName -Properties Description, info | Select-Object Name, info
-                $groupInfo | Format-Table -AutoSize -Wrap
+                Write-Output "`nUpdated notes for group: $groupName"    
             }
             catch {
                 Write-Error "Failed to update notes for group: $groupName"
@@ -77,3 +78,6 @@ try {
 catch {
     Write-Error "Failed to retrieve groups"
 }
+# Get and display the group's updated notes
+$groupInfo = Get-ADGroup -Identity $groupName -Properties Description, info | Select-Object Name, info
+$groupInfo | Format-Table -AutoSize -Wrap
