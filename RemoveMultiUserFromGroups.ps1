@@ -14,12 +14,12 @@ foreach ($user in $users) {
 
             if ($isMember) {
                 Remove-ADGroupMember -Identity $group -Members $user -Confirm:$false -ErrorAction Stop
-                Write-Output "$user successfully removed from $group."
+                Write-Output "$user successfully removed from $group"
             } else {
-                Write-Output "$user is not a member of $group."
+                Write-Output "$user is not a member of $group"
             }
         } catch {
-            Write-Error "Failed to remove $user from $group. Error: $_"
+            Write-Error "Failed to remove $user from $group Error: $_"
         }
     }
 }
