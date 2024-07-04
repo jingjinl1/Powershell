@@ -13,13 +13,13 @@ foreach ($user in $users) {
             $isMember = Get-ADGroupMember -Identity $group -Recursive | Where-Object { $_.SamAccountName -eq $user }
 
             if ($isMember) {
-                Write-Output "$user is already in $group."
+                Write-Output "$user is already in $group"
             } else {
                 Add-ADGroupMember -Identity $group -Members $user -ErrorAction Stop
-                Write-Output "Added $user to $group successfully."
+                Write-Output "Added $user to $group"
             }
         } catch {
-            Write-Error "Failed to add $user to $group. Error: $_"
+            Write-Error "Failed to add $user to $group Error: $_"
         }
     }
 }
