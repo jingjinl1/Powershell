@@ -23,3 +23,35 @@ foreach ($user in $users) {
         }
     }
 }
+
+
+# Define the search pattern and the user to be removed
+$searchPattern = "*XXXXX*"
+$userToRemove = "XXXX" 
+
+# Find all groups that match the search pattern
+try {
+    $groups = Get-ADGroup -Filter "Name -like '$searchPattern'"
+
+    # Check if any groups were found
+    if ($groups) {
+        foreach ($group in $groups) {
+            $groupName = $group.Name
+
+            try {
+                # Remove the user from the group
+                Remove-ADGroupMember -Identity $groupName -Members $userToRemove -Confirm:$false
+                Write-Output "`nRemoved user from group: $groupName"
+            }
+            catch {
+                Write-Error "Failed to remove user from group: $groupName"
+            }
+        }
+    } else {
+        Write-Output "No groups found matching the pattern: $searchPattern"
+    }
+}
+catch {
+    Write-Error "Failed to retrieve groups"
+}
+

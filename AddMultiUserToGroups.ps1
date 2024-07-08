@@ -23,3 +23,40 @@ foreach ($user in $users) {
         }
     }
 }
+
+
+
+
+# Define the search pattern and the user to be added
+$searchPattern = "*XXXXX*"
+$userToAdd = "xxxxx"
+
+# Find all groups that match the search pattern
+try {
+    $groups = Get-ADGroup -Filter "Name -like '$searchPattern'"
+
+    # Check if any groups were found
+    if ($groups) {
+        foreach ($group in $groups) {
+            $groupName = $group.Name
+
+            # Exclude groups that end with '-T' or '-RO'
+            if ($groupName -notmatch "-T$" -and $groupName -notmatch "-RO$") {
+                try {
+                    # Add the user to the group
+                    Add-ADGroupMember -Identity $groupName -Members $userToAdd
+                    Write-Output "`nAdded user to group: $groupName"
+                }
+                catch {
+                    Write-Error "Failed to add user to group: $groupName"
+                }
+            }
+        }
+    } else {
+        Write-Output "No groups found matching the pattern: $searchPattern"
+    }
+}
+catch {
+    Write-Error "Failed to retrieve groups"
+}
+
