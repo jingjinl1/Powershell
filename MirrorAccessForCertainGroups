@@ -1,0 +1,27 @@
+# Get all the groups that XXXXX is a member of
+$groups = Get-ADUser XXXX -Property MemberOf | Select-Object -ExpandProperty MemberOf
+
+# Initialize an array to hold the names of the groups
+$addedGroups = @()
+
+# Filter the groups to only include those with 'XXX' in the name
+$thmGroups = $groups | ForEach-Object {
+    $group = Get-ADGroup $_ -Property Name
+    if ($group.Name -like "*XXX*") {
+        $group
+    }
+}
+
+# Add XXXXX to each filtered group and store the group names
+foreach ($group in $thmGroups) {
+    Add-ADGroupMember -Identity $group.DistinguishedName -Members XXXXX
+    $addedGroups += $group.Name
+}
+
+# Output the result
+if ($addedGroups.Count -gt 0) {
+    $groupNames = $addedGroups -join "`n"
+    Write-Output "User group has been mirrored.`nThe groups are:`n$groupNames"
+} else {
+    Write-Output "No groups were found for user."
+}
